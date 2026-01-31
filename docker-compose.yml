@@ -14,10 +14,11 @@ services:
   backend: 
     build: ./backend
     environment:
-      DATABASE_URL: postgresql://user:password@db:5432/db
-    restart: always
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      restart: always
     ports:
-      - 3001:3001
+      - 8080:8080
     depends_on:
       - db
 

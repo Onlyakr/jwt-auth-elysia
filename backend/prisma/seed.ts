@@ -20,6 +20,12 @@ const bookData = [
 	{ title: "Book 4", slug: "book-4" },
 	{ title: "Book 5", slug: "book-5" },
 ];
+/**
+ * Seeds the database with predefined users and books.
+ *
+ * Deletes all existing books and users, then creates records from the module-level
+ * `userData` and `bookData` arrays and logs each created entity's id.
+ */
 async function main() {
 	console.log("Start seeding...");
 

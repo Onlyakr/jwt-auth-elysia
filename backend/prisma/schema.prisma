@@ -21,7 +21,6 @@ model User {
   password String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  books Book[]
 
   @@map("user")
 }
@@ -29,8 +28,7 @@ model User {
 model Book {
   id String @id @default(cuid())
   title String
-  authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  slug String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -13,28 +13,25 @@ const userData = [
 	{ username: "user", password: "user" },
 ];
 
+const bookData = [
+	{ title: "Book 1", slug: "book-1" },
+	{ title: "Book 2", slug: "book-2" },
+	{ title: "Book 3", slug: "book-3" },
+	{ title: "Book 4", slug: "book-4" },
+	{ title: "Book 5", slug: "book-5" },
+];
 async function main() {
 	console.log("Start seeding...");
 
 	await prisma.book.deleteMany();
 	await prisma.user.deleteMany();
 
-	const createdUsers: string[] = [];
 	for (const user of userData) {
 		const created = await prisma.user.create({
 			data: user,
 		});
-		createdUsers.push(created.id);
 		console.log(`Created user with id: ${created.id}`);
 	}
-
-	const bookData = [
-		{ title: "Book 1", authorId: createdUsers[0] },
-		{ title: "Book 2", authorId: createdUsers[1] },
-		{ title: "Book 3", authorId: createdUsers[0] },
-		{ title: "Book 4", authorId: createdUsers[1] },
-		{ title: "Book 5", authorId: createdUsers[0] },
-	];
 
 	for (const book of bookData) {
 		const created = await prisma.book.create({

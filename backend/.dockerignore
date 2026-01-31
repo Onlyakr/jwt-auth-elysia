@@ -1,0 +1,44 @@
+# Dependencies (reinstalled in container)
+node_modules/
+
+# Git
+.git/
+.gitignore
+
+# Environment (handled separately in Docker)
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+bun-debug.log*
+
+# Build artifacts
+dist/
+build/
+
+# Test coverage
+coverage/
+
+# Documentation (not needed in container)
+README.md
+*.md
+
+# Docker files (prevent recursion)
+Dockerfile
+.dockerignore
+
+# Prisma generated (will be regenerated in container)
+prisma/generated/

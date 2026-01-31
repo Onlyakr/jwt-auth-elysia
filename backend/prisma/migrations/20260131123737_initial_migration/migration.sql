@@ -21,4 +21,7 @@ CREATE TABLE "book" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "user_username_key" ON "user"("username");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "book_slug_key" ON "book"("slug");

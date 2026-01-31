@@ -2,14 +2,14 @@ FROM oven/bun:1
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json bun.lock ./
 
-RUN bun install
+RUN bun install --frozen-lockfile
 
 COPY . .
 
 RUN bunx prisma generate
 
-EXPOSE 3001
+EXPOSE 8080
 
 CMD ["bun", "src/index.ts"]

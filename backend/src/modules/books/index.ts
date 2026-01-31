@@ -1,7 +1,7 @@
 import Elysia, { status, t } from "elysia";
-import { prisma } from "../lib/prisma";
 
 import slugify from "slugify";
+import { prisma } from "../../lib/prisma";
 
 const books = new Elysia({ prefix: "/books" })
 	.get("/", async () => {

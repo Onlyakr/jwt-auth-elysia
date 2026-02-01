@@ -1,9 +1,27 @@
 import Elysia, { status, t } from "elysia";
-
-import slugify from "slugify";
 import { prisma } from "../../lib/prisma";
 
+import slugify from "slugify";
+import jwt from "@elysiajs/jwt";
+
+if (!process.env.JWT_SECRET) {
+	throw new Error("JWT_SECRET is not set");
+}
+
 const books = new Elysia({ prefix: "/books" })
+	.use(
+		jwt({
+			name: "jwt",
+			secret: process.env.JWT_SECRET,
+			exp: "7d",
+		}),
+	)
+	.derive(async ({ cookie: { auth }, jwt }) => {
+		const token = auth.value as string | undefined;
+		const profile = await jwt.verify(token);
+		console.log(profile);
+		return { profile };
+	})
 	.get("/", async () => {
 		try {
 			const books = await prisma.book.findMany();
@@ -44,8 +62,11 @@ const books = new Elysia({ prefix: "/books" })
 	)
 	.post(
 		"/",
-		async ({ body }) => {
+		async ({ body, profile }) => {
 			try {
+				if (!profile) {
+					return status(401, { success: false, message: "Unauthorized" });
+				}
 				const slug = slugify(body.title, { lower: true });
 				const created = await prisma.book.create({
 					data: {
@@ -68,8 +89,11 @@ const books = new Elysia({ prefix: "/books" })
 	)
 	.put(
 		"/:slug",
-		async ({ params: { slug }, body }) => {
+		async ({ params: { slug }, body, profile }) => {
 			try {
+				if (!profile) {
+					return status(401, { success: false, message: "Unauthorized" });
+				}
 				const newSlug = slugify(body.title, { lower: true });
 				const updated = await prisma.book.update({
 					where: { slug },
@@ -94,7 +118,10 @@ const books = new Elysia({ prefix: "/books" })
 	)
 	.delete(
 		"/:slug",
-		async ({ params: { slug } }) => {
+		async ({ params: { slug }, profile }) => {
+			if (!profile) {
+				return status(401, { success: false, message: "Unauthorized" });
+			}
 			try {
 				const deleted = await prisma.book.delete({
 					where: { slug },

@@ -9,7 +9,7 @@ const app = new Elysia()
 	.use(auth)
 	.use(books)
 	.get("/", () => ({ status: "ok", message: "Server is healthy" }))
-	.listen(8080);
+	.listen(8000);
 
 console.log(
 	`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,

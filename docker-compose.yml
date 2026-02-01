@@ -16,7 +16,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
-      restart: always
+    restart: always
     ports:
       - 8080:8080
     depends_on:

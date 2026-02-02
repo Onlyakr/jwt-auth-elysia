@@ -7,12 +7,7 @@ import cors from "@elysiajs/cors";
 
 const app = new Elysia()
 	.use(openapi())
-	.use(
-		cors({
-			origin: "http://localhost:3001",
-			credentials: true,
-		}),
-	)
+	.use(cors({}))
 	.use(auth)
 	.use(books)
 	.get("/", () => ({ status: "ok", message: "Server is healthy" }))

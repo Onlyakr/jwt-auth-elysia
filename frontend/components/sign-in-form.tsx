@@ -1,7 +1,9 @@
 "use client";
 
+import * as z from "zod";
+
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -16,15 +18,12 @@ import {
 	FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { Spinner } from "./ui/spinner";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const formSchema = z.object({
 	username: z.string().min(1, "Username is required"),
@@ -63,6 +62,7 @@ export default function SignInForm({
 			setIsSigningIn(true);
 
 			const resData = await signIn(data);
+
 			if (!resData.success) {
 				throw new Error(resData.message);
 			}

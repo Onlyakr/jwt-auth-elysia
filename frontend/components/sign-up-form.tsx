@@ -1,5 +1,7 @@
 "use client";
 
+import * as z from "zod";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,8 +18,6 @@ import {
 	FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
@@ -45,6 +45,7 @@ async function signUp(data: z.infer<typeof formSchema>) {
 		},
 		credentials: "include",
 	});
+
 	return await res.json();
 }
 
@@ -68,6 +69,7 @@ export default function SignUpForm({
 			setIsSigningUp(true);
 
 			const resData = await signUp(data);
+
 			if (!resData.success) {
 				throw new Error(resData.message);
 			}

@@ -8,7 +8,6 @@ import Link from "next/link";
 import SignOutButton from "@/components/sign-out-button";
 import ActionBookButtons from "@/components/action-book-buttons";
 import AddBookButton from "@/components/add-book-button";
-import { toast } from "sonner";
 
 type Book = {
 	id: string;
@@ -23,36 +22,30 @@ async function getUser() {
 		const cookieStore = await cookies();
 		const authCookie = cookieStore.get("auth");
 
-		const res = await fetch("http://localhost:8080/auth/me", {
+		const res = await fetch("http://host.docker.internal:8080/auth/me", {
 			headers: {
 				Cookie: authCookie ? `auth=${authCookie.value}` : "",
 			},
 		});
 
-		if (!res.ok) {
-			throw new Error();
-		}
-
 		return await res.json();
 	} catch {
 		return {
 			success: false,
+			message: "Failed to get user",
 		};
 	}
 }
 
 async function getBooks() {
 	try {
-		const res = await fetch("http://localhost:8080/books");
-
-		if (!res.ok) {
-			throw new Error();
-		}
+		const res = await fetch("http://host.docker.internal:8080/books");
 
 		return await res.json();
 	} catch {
 		return {
 			success: false,
+			message: "Failed to get books",
 		};
 	}
 }
@@ -60,6 +53,8 @@ async function getBooks() {
 export default async function Page() {
 	const user = await getUser();
 	const books = await getBooks();
+
+	// console.log(user, books);
 
 	return (
 		<div className="flex min-h-svh w-full flex-col">

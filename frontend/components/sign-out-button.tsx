@@ -9,6 +9,7 @@ async function signOut() {
 		method: "POST",
 		credentials: "include",
 	});
+
 	return await res.json();
 }
 
